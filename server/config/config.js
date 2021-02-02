@@ -10,6 +10,15 @@ process.env.PORT=process.env.PORT || 3000;
 process.env.NODE_ENV = process.env.NODE_ENV || `dev`;
 
 
+//vencimiento token   30 dias
+process.env.CADUCIDAD_TOKEN =60 * 60 * 24 * 30;
+
+//seed-  semilla autenticacion
+
+process.env.SEED= process.env.SEED || 'this_secret_developer';
+
+
+
 //db
 let urlDB;
 if(process.env.NODE_ENV==`dev`){

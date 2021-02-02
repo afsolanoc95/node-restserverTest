@@ -1,4 +1,3 @@
-const { json } = require('body-parser');
 const express = require('express');
 //para encriptar password bycrypt   
 const bcrypt = require('bcrypt');
@@ -6,12 +5,22 @@ const bcrypt = require('bcrypt');
 //underscore para put actualizar pero que actualicen siguiendo el encriptado
 const _=require(`underscore`);
 const Usuario = require(`../models/user`);
+const {verificaToken,verificaAdmin}=require(`../middlewares/authenticacion`);
 const app = express();
 
 
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c3VhcmlvIjp7InJvbGUiOiJBRE1JTl9ST0xFIiwiZXN0YWRvIjp0cnVlLCJnb29nbGUiOmZhbHNlLCJfaWQiOiI2MDE1ZTM0MDIwZjhhZDJhMDgzYTVhMmIiLCJub21icmUiOiJjYXJsaXRvcyIsImVtYWlsIjoiYWZzbGFub2M5NUBnbWFpbC5jb20iLCJfX3YiOjB9LCJpYXQiOjE2MTIzMDIzMjMsImV4cCI6MTYxMjMwNDkxNX0.bTdisk9U8dvRu9BFZz4JaVKelF6ZaDofZ0DqfjxS_Wc
+
+//si quiero usar el token, usar middleware el cual va de segundo argumento
+
+app.get('/user',verificaToken ,(req, res) =>{
+
+    //obtener lo del verificatoken
+    /*return res.json({
+        usuario:req.usuario
+    })*/
 
 
-app.get('/user', function (req, res) {
     //res.send('Hello World')
    // res.json('get Usuario local');
    //http://localhost:3000//user?desde=10
@@ -39,7 +48,7 @@ app.get('/user', function (req, res) {
    });
 });
   //agregar data
-  app.post('/user', function (req, res) {
+  app.post('/user',[verificaToken,verificaAdmin], function (req, res) {
       //res.send('Hello World')
       let body=req.body;
       let usuario=new Usuario({
@@ -65,7 +74,7 @@ app.get('/user', function (req, res) {
   });
   //sirve mas para actualizar data el put
   //el put por lo general se manda por el url
-  app.put('/user/:id', function (req, res) {
+  app.put('/user/:id',[verificaToken,verificaAdmin], function (req, res) {
       let id=req.params.id;
      
      
@@ -89,7 +98,7 @@ app.get('/user', function (req, res) {
       });
       
   });
-  app.delete('/user', function (req, res) {
+  app.delete('/user',[verificaToken,verificaAdmin], function (req, res) {
       //res.send('Hello World')
      // res.json('delete Usuario');
    /*  eliminacion fisica
