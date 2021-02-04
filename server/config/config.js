@@ -28,3 +28,9 @@ if(process.env.NODE_ENV==`dev`){
 }
 //inventada
 process.env.URLDB =urlDB;
+
+
+//google client id
+
+
+process.env.CLIENT_ID = process.env.CLIENT_ID || `150870869846-vit5eess8l05o32qgom3em9tpsiqmcrq.apps.googleusercontent.com`
